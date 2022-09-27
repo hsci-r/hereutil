@@ -3,9 +3,21 @@ import os
 import sys
 import warnings
 from os import PathLike
+from pathlib import Path
 from typing import Any
 from importlib import reload
-from pyprojroot import here
+import pyprojroot
+
+
+def here(*args, warn=False, **kwargs) -> Path:
+    """
+    Returns the directory relative to the projects root directory.
+    :param relative_project_path: relative path from project root
+    :param project_files: list of files to track inside the project
+    :param warn: warn user if path does not exist
+    :return: pathlib path
+    """
+    return pyprojroot.here(*args, warn=warn, **kwargs)
 
 
 def source(file: str, globals: dict[str, Any] = None, locals: dict[str, Any] = None) -> None:
