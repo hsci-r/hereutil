@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hereutil"
-version = "0.1.0"
+version = "0.1.2"
 description = "Small utility to manage importing/sourcing python from under here()"
 authors = ["Eetu Mäkelä <eetu.makela@iki.fi>"]
 readme = "README.md"
@@ -13,14 +13,14 @@ keywords = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.6"
 pyprojroot = "^0.2.0"
 
 [tool.poetry.dev-dependencies]
-autopep8 = "^1.5.7"
-pre-commit = "^2.13.0"
-pylint = "^2.14.1"
-Sphinx = "^4.2.0"
+autopep8 = "^1.7.0"
+pre-commit = "^2.20.0"
+pylint = "^2.15.3"
+Sphinx = "^5.2.0.post0"
 sphinx-rtd-theme = "^1.0.0"
 
 [build-system]
