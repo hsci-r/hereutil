@@ -4,23 +4,12 @@ import sys
 import warnings
 from os import PathLike
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 from importlib import reload
-import pyprojroot
+from pyprojroot.here import here
 
 
-def here(*args, warn=False, **kwargs) -> Path:
-    """
-    Returns the directory relative to the projects root directory.
-    :param relative_project_path: relative path from project root
-    :param project_files: list of files to track inside the project
-    :param warn: warn user if path does not exist
-    :return: pathlib path
-    """
-    return pyprojroot.here(*args, warn=warn, **kwargs)
-
-
-def source(file: str, globals: dict[str, Any] = None, locals: dict[str, Any] = None) -> None:
+def source(file: str, globals: Optional[dict[str, Any]] = None, locals: Optional[dict[str, Any]] = None) -> None:
     """Source a python file
 
     Source a given python file in the current (or given) context
@@ -31,7 +20,7 @@ def source(file: str, globals: dict[str, Any] = None, locals: dict[str, Any] = N
         The file to source
     globals: dict[str, Any], optional
         A globals object, if not the one of the caller
-    locals: dict[str, Any], optional)
+    locals: dict[str, Any], optional
         A locals object, if not the one of the caller
     """
     if globals is None:
@@ -43,7 +32,7 @@ def source(file: str, globals: dict[str, Any] = None, locals: dict[str, Any] = N
         exec(code, globals, locals)
 
 
-def add_to_sys_path(location: str | PathLike[str], warn: bool = True) -> None:
+def add_to_sys_path(location: str | PathLike[str] = here(), warn: bool = True) -> None:
     """Add a location to the system path for importing
 
     Parameters
@@ -56,12 +45,12 @@ def add_to_sys_path(location: str | PathLike[str], warn: bool = True) -> None:
     if warn and not os.path.exists(location):
         warnings.warn("Path doesn't exist: {}".format(location))
     if isinstance(location, PathLike):
-        location = location.__fspath__()
+        location = str(location)
     if location not in sys.path:
-        sys.path.append(location)
+        sys.path.insert(0, location)
 
 
-def remove_from_sys_path(location: str | PathLike[str]) -> None:
+def remove_from_sys_path(location: str | PathLike[str] = here()) -> None:
     """Remove a location from the system path
 
     Parameters
@@ -70,7 +59,7 @@ def remove_from_sys_path(location: str | PathLike[str]) -> None:
         The path to remove from sys.path
     """
     if isinstance(location, PathLike):
-        location = location.__fspath__()
+        location = str(location)
     sys.path.remove(location)
 
 
